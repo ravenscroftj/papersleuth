@@ -13,6 +13,8 @@ type DOIResolveClient struct {
 
 func tidyDOI(doi string) string {
 
+	doi = strings.TrimPrefix(doi, "doi:")
+
 	return doi
 }
 
@@ -26,7 +28,7 @@ type PaperResponse struct {
 
 func (client *DOIResolveClient) ResolveDOI(doi string) (*PaperResponse, error) {
 
-	resp, err := http.Get(fmt.Sprintf("https://dx.doi.org/%s", doi))
+	resp, err := http.Get(fmt.Sprintf("https://dx.doi.org/%s", tidyDOI(doi)))
 
 	if err != nil {
 		return nil, err
